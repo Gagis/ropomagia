@@ -1,14 +1,26 @@
 from django.shortcuts import render
 
-# Create your views here.
-from django.http import HttpResponse
+from django.http import HttpResponse, HttpResponseRedirect
 
+from .models import Card
+from .forms import IDForm
 
 def index(request):
     return HttpResponse("Hei maailma! Kohta lisätään kortteja kantaan!")
 
 def add(request):
-    return HttpResponse("Pyydetään lappua ScryFallista.")
+    if request.method == 'POST':
+        form = IDForm(request.POST)
+        if form.is_valid():
+            input_id = form.cleaned_data['scryfall_id']
+            return HttpResponseRedirect('cards/')
+
+    else:
+        form = IDForm()
+
+    return render(request, 'scryfall/add.html', {'form': form})
 
 def cards(request):
-    return HttpResponse("Listataan kerätyt tiedot lapuista.")
+    card_list = Card.objects.order_by('set', 'collector_number')
+    context = {'card_list': card_list}
+    return render(request, 'scryfall/cards.html', context)
