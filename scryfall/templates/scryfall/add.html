@@ -1,0 +1,7 @@
+<h1>Lisätään kortti</h1>
+<form method="post">
+{% csrf_token %}
+{{ form }}
+<input type="submit" value="Lisää">
+</form>
+{% if message %}<p>{{ message }}</p>{% endif %}

@@ -1,15 +1,12 @@
 from django.shortcuts import render
 
-from django.http import HttpResponse
-
 from .models import Card
 from .forms import IDForm
 from .api import fetch
 
 
 def index(request):
-    # Indexiä ei nyt käytetä mihinkään jännään.
-    return HttpResponse("Hei maailma! Kohta lisätään kortteja kantaan!")
+    return render(request, 'scryfall/index.html')
 
 
 def add(request):
@@ -35,7 +32,7 @@ def add(request):
                      collector_number=card['collector_number'],
                      scryfall_id=card['scryfall_id'],
                      ).save()
-
+            # Lieköhän tässä tarvetta käyttää HttpResponseRedirect tämän sijaan
             return render(request, 'scryfall/add.html',
                           {'form': form, 'message': 'Kortti lisätty.'})
 
