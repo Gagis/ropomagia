@@ -1,0 +1,2 @@
+# ropomagia
+Poromagian Koodarirekrytehtävä
